@@ -21,6 +21,16 @@ $ git checkout sk6812
 $ npm install webthing-sk6812
 ```
 
+## Configure
+
+Modify the parameters of the `config` object in `index.js` to match the hardware configuration.
+
+- `numLeds`: The total number of LEDs connected to the Raspberry Pi.
+- `gpio`: The GPIO line to use to control the LEDs (default is PWM GPI 18).
+- `dma`: The GMA channel to use.
+    - Default is 10.
+    - ***This may need to be changed if running on a Raspberry Pi 3 or later.***
+
 ## Run
 
 Root/sudo privileges are required to write to PWM GPI line on a Raspberry Pi.
