@@ -48,6 +48,7 @@ class SK6812 extends Thing {
             mode: 'White',
             color: '#ff0000',
             level: 80,
+            speed: 50,
             numLeds: config.numLeds
         };
 
@@ -104,6 +105,18 @@ class SK6812 extends Thing {
                     'maximum': 100
                 }));
 
+        this.addProperty(
+            new Property(this,
+                'Speed',
+                new Value(this.config.speed, this.SetSpeed.bind(this)),
+                {
+                    '@type': 'LevelProperty',
+                    'type': 'integer',
+                    'title': 'Speed',
+                    'minimum': 0,
+                    'maximum': 100
+                }));
+
         ws281x.configure(this.wsConfig);
 
         this.SetOn(this.config.on);
@@ -144,13 +157,18 @@ class SK6812 extends Thing {
 
     SetColor(color) {
         this.config.color = color;
-        console.log(`SetColor: ${this.config.color}`);
         this.mode.UpdateConfig(this.config);
     }
 
 
     SetLevel(level) {
         this.config.level = level;
+        this.mode.UpdateConfig(this.config);
+    }
+
+
+    SetSpeed(speed) {
+        this.config.speed = speed;
         this.mode.UpdateConfig(this.config);
     }
 }

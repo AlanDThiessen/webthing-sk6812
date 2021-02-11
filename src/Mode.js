@@ -32,12 +32,8 @@ const Color = require('color');
 
 class Mode {
     constructor(config) {
-        this.config = {
-            numLeds: config.numLeds,
-            color: Color(config.color),
-            rgbLevel: config.level,
-            whiteLevel: config.level
-        };
+        this.config = config;
+        this.config.color = Color(config.color);
         this.update = function() {};
     }
 
@@ -52,6 +48,7 @@ class Mode {
     UpdateConfig(config) {
         this.config.color = Color(config.color);
         this.config.rgbLevel = config.level;
+        this.config.speed = config.speed;
         this.update();
     }
 

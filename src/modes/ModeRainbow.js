@@ -30,6 +30,7 @@ const ws281x = require('rpi-ws281x');
 const Color = require('color');
 const Mode = require('../Mode.js');
 
+const MAX_SPEED = 30;
 
 /***
  * Class RainbowMode lights the SK6812 strip up in a moving rainbow
@@ -41,11 +42,17 @@ class RainbowMode extends Mode {
         this.h2 = 0;
         this.hue = this.h2;
         this.saturation = 100;
+        this.increment = this.config.speed * MAX_SPEED / 100;
         this.interval = setInterval(this.loop.bind(this), 60);
     }
 
     Stop() {
         clearInterval(this.interval);
+    }
+
+    UpdateConfig(config)  {
+        super.UpdateConfig(config);
+        this.increment = this.config.speed * MAX_SPEED / 100;
     }
 
     loop() {
@@ -67,7 +74,7 @@ class RainbowMode extends Mode {
             }
         }
 
-        this.h2 += 8;
+        this.h2 += this.increment;
 
         if(this.h2 > 360) {
             this.h2 = this.h2 - 360;
