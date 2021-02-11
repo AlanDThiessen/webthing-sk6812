@@ -33,6 +33,8 @@ const Color = require('color');
 class Mode {
     constructor(config) {
         this.config = config;
+        this.config.rgbLevel = config.level;
+        this.config.whiteLevel = config.level;
         this.config.color = Color(config.color);
         this.update = function() {};
     }

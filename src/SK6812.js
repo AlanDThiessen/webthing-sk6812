@@ -113,7 +113,7 @@ class SK6812 extends Thing {
                     '@type': 'LevelProperty',
                     'type': 'integer',
                     'title': 'Speed',
-                    'minimum': 0,
+                    'minimum': 1,
                     'maximum': 100
                 }));
 

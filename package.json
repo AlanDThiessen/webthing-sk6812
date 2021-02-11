@@ -1,6 +1,6 @@
 {
   "name": "webthing-sk6812",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "WebThing to control a strip of Sk6812 LEDs from a Raspberry Pi.",
   "main": "index.js",
   "scripts": {

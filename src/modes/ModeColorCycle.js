@@ -26,9 +26,47 @@
 
 'use strict';
 
-module.exports = {
-    'White': require('./modes/ModeWhite.js'),
-    'Static Color': require('./modes/ModeStaticColor.js'),
-    'Color Cycle': require('./modes/ModeColorCycle.js'),
-    'Rainbow': require('./modes/ModeRainbow.js')
+const Color = require('color');
+const Mode = require('../Mode.js');
+
+const MAX_SPEED = 4.8;
+
+/***
+ * Class ColorCycleMode lights the entire SK6812 strip up in rotating colors
+ */
+class ColorCycleMode extends Mode {
+    constructor(config) {
+        super(config);
+        this.config.whiteLevel = 0;
+        this.hue = 0;
+        this.saturation = 100;
+        this.increment = this.config.speed * MAX_SPEED / 100;
+        this.interval = setInterval(this.loop.bind(this), 60);
+    }
+
+    Stop() {
+        clearInterval(this.interval);
+    }
+
+    UpdateConfig(config)  {
+        super.UpdateConfig(config);
+        this.increment = this.config.speed * MAX_SPEED / 100;
+    }
+
+    loop() {
+        this.config.color = Color({
+            h: this.hue,
+            s: this.saturation,
+            v: this.config.rgbLevel
+        });
+
+        this.SetStripSolid();
+        this.hue += this.increment;
+
+        if(this.hue > 360) {
+            this.hue = this.hue - 360;
+        }
+    }
 }
+
+module.exports = ColorCycleMode;
