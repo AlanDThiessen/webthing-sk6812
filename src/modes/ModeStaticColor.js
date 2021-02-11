@@ -37,31 +37,24 @@ class StaticColorMode extends Mode {
     constructor(config) {
         super(config);
         this.config.whiteLevel = 0;
-
         this.update = super.SetStripSolid.bind(this);
         this.UpdateBrightness();
+        console.log(`Static: ${this.config.color.hex()} @ ${this.config.rgbLevel}`);
         this.Update();
     }
 
+    UpdateConfig(config) {
+        this.config.rgbLevel = config.level;
+        this.config.color = Color(config.color);
+        console.log(`Static: ${this.config.color.hex()} @ ${this.config.rgbLevel}`);
+        this.UpdateBrightness();
+        this.Update();
+    }
 
     UpdateBrightness() {
         let hsv = this.config.color.hsv().round().object();
-        hsv.v = this.config.brightness;
+        hsv.v = this.config.rgbLevel;
         this.config.color = Color(hsv);
-    }
-
-
-    UpdateColor(color) {
-        this.config.color = Color(color);
-        this.UpdateBrightness();
-        this.Update();
-    }
-
-
-    UpdateLevel(level) {
-        this.config.brightness = level;
-        this.UpdateBrightness();
-        this.Update();
     }
 }
 

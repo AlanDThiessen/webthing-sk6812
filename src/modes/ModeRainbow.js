@@ -38,11 +38,9 @@ class RainbowMode extends Mode {
     constructor(config) {
         super(config);
         this.config.whiteLevel = 0;
-
         this.h2 = 0;
         this.hue = this.h2;
         this.saturation = 100;
-
         this.interval = setInterval(this.loop.bind(this), 60);
     }
 
@@ -59,7 +57,7 @@ class RainbowMode extends Mode {
             let color = Color({
                 h: this.hue,
                 s: this.saturation,
-                v: this.config.brightness
+                v: this.config.rgbLevel
             });
             pixels[i] = this.Color(color, 0);
             this.hue += 360 / this.config.numLeds;
@@ -78,6 +76,5 @@ class RainbowMode extends Mode {
         ws281x.render(pixels);
     }
 }
-
 
 module.exports = RainbowMode;

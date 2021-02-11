@@ -35,7 +35,7 @@ class Mode {
         this.config = {
             numLeds: config.numLeds,
             color: Color(config.color),
-            brightness: config.level,
+            rgbLevel: config.level,
             whiteLevel: config.level
         };
         this.update = function() {};
@@ -45,31 +45,23 @@ class Mode {
     Stop() {
     }
 
-
     Update() {
         this.update();
     }
 
-
-    UpdateColor(color) {
-        this.config.color = Color(color);
-        this.Update();
+    UpdateConfig(config) {
+        this.config.color = Color(config.color);
+        this.config.rgbLevel = config.level;
+        this.update();
     }
-
-
-    UpdateLevel(level) {
-        this.config.brightness = level;
-        this.Update();
-    }
-
 
     Color(color, level) {
         let white = Math.round(255 * level / 100);
 
         return( (color.red()   << 16) |
-            (color.green() <<  8) |
-            (color.blue()  <<  0) |
-            (white         << 24)   );
+                (color.green() <<  8) |
+                (color.blue()  <<  0) |
+                (white         << 24)   );
     }
 
     SetStripSolid() {

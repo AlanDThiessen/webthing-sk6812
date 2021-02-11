@@ -27,7 +27,6 @@
 'use strict';
 
 const ws281x = require('rpi-ws281x');
-const Color = require('color');
 const Mode = require('./Mode.js');
 const Modes = require('./Modes.js');
 const {
@@ -48,7 +47,7 @@ class SK6812 extends Thing {
             on: false,
             mode: 'White',
             color: '#ff0000',
-            level: 100,
+            level: 80,
             numLeds: config.numLeds
         };
 
@@ -107,7 +106,7 @@ class SK6812 extends Thing {
 
         ws281x.configure(this.wsConfig);
 
-        this.SetMode(this.config.mode);
+        this.SetOn(this.config.on);
     }
 
 
@@ -124,7 +123,7 @@ class SK6812 extends Thing {
 
             this.mode = new Modes.White({
                 numLeds: this.config.numLeds,
-                color: Color(0, 0, 0),
+                color: '#000000',
                 level: 0
             });
         }
@@ -138,27 +137,21 @@ class SK6812 extends Thing {
             }
 
             this.config.mode = mode;
-
-            let config = {
-                numLeds: this.config.numLeds,
-                color: this.config.color,
-                level: this.config.level
-            };
-
-            this.mode = new Modes[this.config.mode](config);
+            this.mode = new Modes[this.config.mode](this.config);
         }
     }
 
 
     SetColor(color) {
         this.config.color = color;
-        this.mode.UpdateColor(color);
+        console.log(`SetColor: ${this.config.color}`);
+        this.mode.UpdateConfig(this.config);
     }
 
 
     SetLevel(level) {
         this.config.level = level;
-        this.mode.UpdateLevel(level);
+        this.mode.UpdateConfig(this.config);
     }
 }
 

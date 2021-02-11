@@ -28,6 +28,6 @@
 
 module.exports = {
     'White': require('./modes/ModeWhite.js'),
-    'StaticColor': require('./modes/ModeStaticColor.js'),
+    'Static Color': require('./modes/ModeStaticColor.js'),
     'Rainbow': require('./modes/ModeRainbow.js')
 }

@@ -44,13 +44,8 @@ class WhiteMode extends Mode {
         this.Update();
     }
 
-    UpdateColor(color) {
-        // Override the color to all off so only use white segments
-        this.config.color = Color('#000000');
-    }
-
-    UpdateLevel(level) {
-        this.config.whiteLevel = level;
+    UpdateConfig(config) {
+        this.config.whiteLevel = config.level;
         this.Update();
     }
 }
