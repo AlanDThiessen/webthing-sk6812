@@ -29,6 +29,7 @@
 const ws281x = require('rpi-ws281x');
 const Mode = require('./Mode.js');
 const Modes = require('./Modes.js');
+const sensor = require('ds18b20-raspi');
 const {
     Property,
     Thing,
@@ -53,6 +54,8 @@ class SK6812 extends Thing {
         };
 
         this.mode = null;
+        this.tempF = new Value(sensor.readSimpleF(1));
+        this.tempInterval = setInterval(this.SetTemp.bind(this), 60000);
 
         this.wsConfig = {
             leds: config.numLeds,
@@ -117,6 +120,19 @@ class SK6812 extends Thing {
                     'maximum': 100
                 }));
 
+        this.addProperty(
+            new Property(this,
+                'Temperature',
+                this.tempF,
+                {
+                    '@type': 'LevelProperty',
+                    'type': 'number',
+                    'title': 'Temperature',
+                    'description': 'Temperature of power supply',
+                    'readOnly': true,
+                    'unit': 'F'
+                }));
+
         ws281x.configure(this.wsConfig);
 
         this.SetOn(this.config.on);
@@ -170,6 +186,12 @@ class SK6812 extends Thing {
     SetSpeed(speed) {
         this.config.speed = speed;
         this.mode.UpdateConfig(this.config);
+    }
+
+    SetTemp() {
+        let tempF = sensor.readSimpleF(1);
+        this.tempF.notifyOfExternalUpdate(tempF);
+        console.log(`Temp: ${tempF} F`);
     }
 }
 
